@@ -8,7 +8,8 @@
     },
     "devDependencies": {
         "aws-sdk-mock": "^4.5.0",
-        "jest": "^24.7.1"
+        "jest": "^24.7.1",
+        "@fibotax/pi-db": "1.2.1"
     },
     "scripts": {
         "test": "jest"
