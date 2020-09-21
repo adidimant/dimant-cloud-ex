@@ -32,13 +32,13 @@ Resources:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
   # This is a Lambda function config associated with the source code: s3-json-logger.js
-  s3JsonLoggerFunction:
+  incomingPDFHandler:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/handlers/s3-json-logger.s3JsonLoggerHandler
+      Handler: src/handlers/incoming-pdf-handler.incomingPDFHandler
       Runtime: nodejs10.x
-      Description: A Lambda function that logs a json file sent to S3 bucket.
+      Description: A Lambda function that listens to S3 public bucket and save pdf files' data
       MemorySize: 128
       Timeout: 60
       Policies:
