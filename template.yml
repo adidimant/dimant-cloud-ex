@@ -37,11 +37,11 @@ Parameters:
     Description: Indicated the enviroment the application is deployed to.
   publicBucket:
     Type: String
-    Default: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-simpleappbucket
+    Default: aws-${AWS::Region}-${AWS::AccountId}-${AppId}-simpleappbucket
     Description: Public bucket that recieves the files.
   privateBucket:
     Type: String
-    Default: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-securedappbucket
+    Default: aws-${AWS::Region}-${AWS::AccountId}-${AppId}-securedappbucket
     Description: Private bucket that we save the files in.
 
 # Resources declares the AWS resources that you want to include in the stack
