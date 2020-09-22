@@ -4,6 +4,7 @@ const {getBucketObject, putObjectInBucket, deleteBucketObject} = require("../lib
 const {saveFileInfoInDB} = require("../lib/db");
 
 exports.incomingPDFHandler = async (event, context) => {
+    console.log("incomingPDFHandler lambda function was triggered!");
     try {
         const fileKey = event.Records[0].s3.object.key;
         let result;
