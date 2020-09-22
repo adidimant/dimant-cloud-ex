@@ -6,6 +6,8 @@ phases:
   install:
     commands:
       # Install all dependencies (including dependencies for running tests)
+      - echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" > ~/.npmrc
+      - npm config set registry https://npm.pkg.github.com/fibotax
       - npm install
   pre_build:
     commands:
