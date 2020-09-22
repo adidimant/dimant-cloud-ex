@@ -20,7 +20,7 @@ describe('Test for s3-json-logger', () => {
                 {
                     s3: {
                         bucket: {
-                            name: 'test-bucket',
+                            name: 'aws-us-east-1-722379266774-dimant-cloud-ex-simpleappbucket',
                         },
                         object: {
                             key: 'test-key',
