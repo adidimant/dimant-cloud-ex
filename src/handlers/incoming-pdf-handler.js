@@ -1,5 +1,5 @@
 const uuid = require('uuid');
-const {PUBLIC_BUCKET_NAME, PRIVATE_BUCKET_NAME} = require("../lib/consts");
+const {PUBLIC_BUCKET_NAME, PRIVATE_BUCKET_NAME, ALERTS} = require("../lib/consts");
 const {getBucketObject, putObjectInBucket, deleteBucketObject} = require("../lib/aws");
 const {saveFileInfoInDB} = require("../lib/db");
 
@@ -19,26 +19,29 @@ exports.incomingPDFHandler = async (event, context) => {
         } else {
             const fileId = uuid();
             const originFile = await getBucketObject(originFileParams);
-            const putParams = {
-                Bucket: PRIVATE_BUCKET_NAME,
-                Key: fileId,
-                Body: originFile.Body,
-                ContentType: originFile.ContentType,
-                Metadata: originFile.Metadata,
-                StorageClass: "INTELLIGENT_TIERING"
-            };
-            await putObjectInBucket(putParams);
+            if(!originFile) console.log(ALERTS.COULDNT_GET_FILE);
+            else {
+                const putParams = {
+                    Bucket: PRIVATE_BUCKET_NAME,
+                    Key: fileId,
+                    Body: originFile.Body,
+                    ContentType: originFile.ContentType,
+                    Metadata: originFile.Metadata,
+                    StorageClass: "INTELLIGENT_TIERING"
+                };
+                await putObjectInBucket(putParams);
 
-            const fileInfo = {
-                key: fileId,
-                original_key: fileKey,
-                size: "",
-                type: originFile.ContentType
-            };
+                const fileInfo = {
+                    key: fileId,
+                    original_key: fileKey,
+                    size: event.Records[0].s3.object.size,
+                    type: originFile.ContentType
+                };
 
-            await saveFileInfoInDB(fileInfo);
+                await saveFileInfoInDB(fileInfo);
 
-            result = `File: ${fileKey} was successfully renamed and moved to the private bucket`;
+                result = `File: ${fileKey} was successfully renamed and moved to the private bucket`;
+            }
         }
 
       return { statusCode: 200, result: result };
