@@ -1,4 +1,4 @@
-const PUBLIC_BUCKET_NAME = "dimant-test";
+const PUBLIC_BUCKET_NAME = "simpleappbucket";
 const PRIVATE_BUCKET_NAME = "dimant-test-secured";
 const FILE_UPLOADS_TABLE = "file_uploads_log";
 const actionContext = {
@@ -6,4 +6,8 @@ const actionContext = {
     client_display_name: 'incoming-pdf-detector',
 }
 
-module.exports = {PUBLIC_BUCKET_NAME, PRIVATE_BUCKET_NAME, FILE_UPLOADS_TABLE, actionContext};
+const ALERTS = {
+    COULDNT_GET_FILE: "Couldn't get file from public bucket"
+}
+
+module.exports = {PUBLIC_BUCKET_NAME, PRIVATE_BUCKET_NAME, FILE_UPLOADS_TABLE, actionContext, ALERTS};
