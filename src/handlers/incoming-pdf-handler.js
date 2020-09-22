@@ -20,7 +20,7 @@ exports.incomingPDFHandler = async (event, context) => {
         } else {
             const fileId = uuid();
             const originFile = await getBucketObject(originFileParams);
-            if(!originFile) console.log(ALERTS.COULDNT_GET_FILE);
+            if(!originFile) console.log(`${ALERTS.COULDNT_GET_FILE} - ${fileKey}`);
             else {
                 const putParams = {
                     Bucket: PRIVATE_BUCKET_NAME,
@@ -44,7 +44,7 @@ exports.incomingPDFHandler = async (event, context) => {
                 result = `File: ${fileKey} was successfully renamed and moved to the private bucket`;
             }
         }
-
+        console.log(result);
       return { statusCode: 200, result: result };
     } catch (error) {
       console.error(error);
