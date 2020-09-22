@@ -19,11 +19,30 @@ Globals:
     # to their current application. All the functions and roles in this application have to include it and
     # it has to be manually updated when you add resources to your application.
     # More information in https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html
+    Environment:
+      Variables:
+        ENV: 
+          Ref: Env
+        PUBLIC_BUCKET:
+          Ref: publicBucket
+        PRIVATE_BUCKET:
+          Ref: privateBucket
     PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/${AppId}-${AWS::Region}-PermissionsBoundary'
 
 Parameters:
   AppId:
     Type: String
+  Env:
+    Type: String
+    Description: Indicated the enviroment the application is deployed to.
+  publicBucket:
+    Type: String
+    Default: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-simpleappbucket
+    Description: Public bucket that recieves the files.
+  privateBucket:
+    Type: String
+    Default: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-securedappbucket
+    Description: Private bucket that we save the files in.
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
@@ -38,6 +57,7 @@ Resources:
       CodeUri: ./
       Handler: src/handlers/incoming-pdf-handler.incomingPDFHandler
       Runtime: nodejs10.x
+      FunctionName: !Sub "primalPDFHandler"
       Description: A Lambda function that listens to S3 public bucket and save pdf files' data
       MemorySize: 128
       Timeout: 60
@@ -45,18 +65,51 @@ Resources:
         # Give Read Permissions to the S3 Bucket
         - S3ReadPolicy:
             BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-simpleappbucket
+        - S3WritePolicy:
+            BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-securedappbucket
       Events:
         simpleappbucketEvent:
           Type: S3
           Properties:
             Bucket: !Ref simpleappbucket
             Events: s3:ObjectCreated:*
-            Filter:
-              S3Key:
-                Rules:
-                  - Name: suffix
-                    Value: ".json"
+            #Filter:
+             # S3Key:
+              #  Rules:
+               #   - Name: suffix
+                #    Value: ".json"
+  innerHandler:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/handlers/inner-handler.innerHandler
+      Runtime: nodejs10.x
+      FunctionName: !Sub "innerPDFHandler"
+      Description: A Lambda function that listens to S3 public bucket and save pdf files' data
+      MemorySize: 128
+      Timeout: 60
+      Policies:
+        # Give Read Permissions to the S3 Bucket
+        - S3ReadPolicy:
+            BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-simpleappbucket
+        - S3WritePolicy:
+            BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-securedappbucket
+      Events:
+        simpleappbucketEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref simpleappbucket
+            Events: s3:ObjectCreated:*
+            #Filter:
+             # S3Key:
+              #  Rules:
+               #   - Name: suffix
+                #    Value: ".json"
   simpleappbucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-simpleappbucket
+  securedappbucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-securedappbucket
