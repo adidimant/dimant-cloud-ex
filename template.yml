@@ -51,12 +51,12 @@ Resources:
       Policies:
         # Give Read Permissions to the S3 Bucket
         - S3ReadPolicy:
-            BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-PublicAppBucket
+            BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-publicappbucket
       Events:
         PublicBucketAppEvent:
           Type: S3
           Properties:
-            Bucket: !Ref PublicAppBucket
+            Bucket: !Ref publicappbucket
             Events: s3:ObjectCreated:*
 
   innerHandler:
@@ -70,20 +70,20 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          PUBLIC_BUCKET: !Ref PublicAppBucket
+          PUBLIC_BUCKET: !Ref publicappbucket
       Policies:
         # Give Read Permissions to the S3 Bucket
         - S3CrudPolicy:
-            BucketName: !Ref PublicAppBucket
+            BucketName: !Ref publicappbucket
         - S3WritePolicy:
-            BucketName: !Ref PrivateAppBucket
+            BucketName: !Ref privateappbucket
 
-  PublicAppBucket:
+  publicappbucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-PublicAppBucket
+      BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-publicappbucket
 
-  PrivateAppBucket:
+  privateappbucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-PrivateAppBucket
+      BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-privateappbucket
