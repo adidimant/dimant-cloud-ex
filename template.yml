@@ -75,9 +75,7 @@ Resources:
           PUBLIC_BUCKET: !GetAtt PublicAppBucket.BucketName
       Policies:
         # Give Read Permissions to the S3 Bucket
-        - S3ReadPolicy:
-            BucketName: !GetAtt PublicAppBucket.BucketName
-        - S3DeletePolicy:
+        - S3CrudPolicy:
             BucketName: !GetAtt PublicAppBucket.BucketName
         - S3WritePolicy:
             BucketName: !GetAtt PrivateAppBucket.BucketName
