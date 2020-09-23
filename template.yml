@@ -51,7 +51,7 @@ Resources:
       Policies:
         # Give Read Permissions to the S3 Bucket
         - S3ReadPolicy:
-            BucketName: !Ref PublicAppBucket
+            BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-PublicAppBucket
       Events:
         PublicBucketAppEvent:
           Type: S3
