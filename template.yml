@@ -54,7 +54,7 @@ Resources:
         - S3ReadPolicy:
             BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-publicappbucket
         - LambdaInvokePolicy:
-            FunctionName: innerPDFHandler
+            FunctionName: arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:innerPDFHandler
       Events:
         PublicBucketAppEvent:
           Type: S3
