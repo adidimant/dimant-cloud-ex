@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3({ region: "us-east-1" });
 
 const getBucketObject = async (originFileParams) => {
-    await s3.getObject(originFileParams).promise();
+    return await s3.getObject(originFileParams).promise();
 };
 
 const putObjectInBucket = async (putParams) => {
