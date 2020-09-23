@@ -52,7 +52,7 @@ Resources:
       Policies:
         # Give Read Permissions to the S3 Bucket
         - S3ReadPolicy:
-            BucketName: !GetAtt PublicAppBucket.Arn
+            BucketName: !GetAtt PublicAppBucket
       Events:
         PublicBucketAppEvent:
           Type: S3
@@ -72,13 +72,13 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          PUBLIC_BUCKET: !GetAtt PublicAppBucket.Arn
+          PUBLIC_BUCKET: !GetAtt PublicAppBucket
       Policies:
         # Give Read Permissions to the S3 Bucket
         - S3CrudPolicy:
-            BucketName: !GetAtt PublicAppBucket.Arn
+            BucketName: !GetAtt PublicAppBucket
         - S3WritePolicy:
-            BucketName: !GetAtt PrivateAppBucket.Arn
+            BucketName: !GetAtt PrivateAppBucket
 
   PublicAppBucket:
     Type: AWS::S3::Bucket
