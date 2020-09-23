@@ -21,7 +21,7 @@ Globals:
     # More information in https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html
     Environment:
       Variables:
-        ENV: 
+        ENV:
           Ref: Env
         PUBLIC_BUCKET:
           Ref: publicBucket
@@ -58,7 +58,7 @@ Resources:
       Handler: src/handlers/incoming-pdf-handler.incomingPDFHandler
       Runtime: nodejs10.x
       FunctionName: !Sub "primalPDFHandler"
-      Description: A Lambda function that listens to S3 public bucket and save pdf files' data
+      Description: A Lambda function that listens to S3 public bucket and triggers inner lambda function with the event as param
       MemorySize: 128
       Timeout: 60
       Policies:
@@ -73,11 +73,6 @@ Resources:
           Properties:
             Bucket: !Ref simpleappbucket
             Events: s3:ObjectCreated:*
-            #Filter:
-             # S3Key:
-              #  Rules:
-               #   - Name: suffix
-                #    Value: ".json"
   innerHandler:
     Type: AWS::Serverless::Function
     Properties:
@@ -85,7 +80,7 @@ Resources:
       Handler: src/handlers/inner-handler.innerHandler
       Runtime: nodejs10.x
       FunctionName: !Sub "innerPDFHandler"
-      Description: A Lambda function that listens to S3 public bucket and save pdf files' data
+      Description: A Lambda function that been triggered from the external lambda function
       MemorySize: 128
       Timeout: 60
       Policies:
@@ -94,17 +89,6 @@ Resources:
             BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-simpleappbucket
         - S3WritePolicy:
             BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-securedappbucket
-      Events:
-        simpleappbucketEvent:
-          Type: S3
-          Properties:
-            Bucket: !Ref simpleappbucket
-            Events: s3:ObjectCreated:*
-            #Filter:
-             # S3Key:
-              #  Rules:
-               #   - Name: suffix
-                #    Value: ".json"
   simpleappbucket:
     Type: AWS::S3::Bucket
     Properties:
