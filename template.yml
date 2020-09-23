@@ -45,7 +45,6 @@ Resources:
       CodeUri: ./
       Handler: src/handlers/incoming-pdf-handler.incomingPDFHandler
       Runtime: nodejs10.x
-      FunctionName: "primalPDFHandler"
       Description: A Lambda function that listens to S3 public bucket and triggers inner lambda function with the event as param
       MemorySize: 128
       Timeout: 60
@@ -66,7 +65,6 @@ Resources:
       CodeUri: ./
       Handler: src/handlers/inner-handler.innerHandler
       Runtime: nodejs10.x
-      FunctionName: "innerPDFHandler"
       Description: A Lambda function that been triggered from the external lambda function
       MemorySize: 128
       Timeout: 60
