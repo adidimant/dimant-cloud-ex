@@ -53,6 +53,8 @@ Resources:
         # Give Read Permissions to the S3 Bucket
         - S3ReadPolicy:
             BucketName: !Sub aws-${AWS::Region}-${AWS::AccountId}-${AppId}-publicappbucket
+        - LambdaInvokePolicy:
+            FunctionName: !GetAtt innerHandler.FunctionName
       Events:
         PublicBucketAppEvent:
           Type: S3
