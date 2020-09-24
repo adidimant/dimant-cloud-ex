@@ -7,6 +7,7 @@
         "@fibotax/pi-db": "1.2.1",
         "aws-sdk": "^2.437.0",
         "moment-timezone": "^0.5.31",
+        "querystring": "^0.2.0",
         "uuid": "^8.3.0"
     },
     "devDependencies": {
