@@ -7,7 +7,7 @@ const db = new piDb(postgrestUrl);
 const {FILE_UPLOADS_TABLE, actionContext} = require("../lib/consts");
 
 const saveFileInfoInDB = async (fileInfo) => {
-    console.log(process.env.ENV);
+    console.log("ENV - " + process.env.ENV);
     const payload = {
         ...fileInfo,
         timestamp: moment().tz('Asia/Jerusalem').format('YYYY-MM-DD HH:mm:ss')

@@ -8,12 +8,12 @@ const PUBLIC_BUCKET_NAME = process.env.PUBLIC_BUCKET, PRIVATE_BUCKET_NAME = proc
 exports.innerHandler = async (event, context) => {
     console.log("innerPDFHandler lambda function was triggered!");
     try {
-        const fileKey = event.Records[0].s3.object.key;
+        const fileKey = queryObjectKeyToString(event.Records[0].s3.object.key);
         let result;
 
         let originFileParams = {
             Bucket: PUBLIC_BUCKET_NAME,
-            Key: queryObjectKeyToString(fileKey),
+            Key: fileKey,
         };
         console.log(originFileParams);
 
