@@ -64,6 +64,7 @@ Resources:
 
   innerHandler:
     Type: AWS::Serverless::Function
+    DependsOn: LambdaExecutionPolicyCustom
     Properties:
       CodeUri: ./
       Handler: src/handlers/inner-handler.innerHandler
@@ -82,12 +83,29 @@ Resources:
             BucketName: !Ref publicappbucket
         - S3WritePolicy:
             BucketName: !Ref privateappbucket
+        - 
       VpcConfig:
         SecurityGroupIds:
           - sg-0439e628d56a34d63
         SubnetIds:
           - subnet-091de7998d10fe361
           - subnet-07ec4db4f419d1c61
+
+  LambdaExecutionPolicyCustom:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: lambda-execution-policy-custom
+      Roles:
+        Ref: LambdaExecutionRole
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+          Action:
+            - ec2:CreateNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DeleteNetworkInterface
+          Resource: '*'
 
   publicappbucket:
     Type: AWS::S3::Bucket
