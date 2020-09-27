@@ -88,7 +88,7 @@ Resources:
       Type: "AWS::IAM::Role"
       Properties: 
         RoleName: "VPCAccessExecutionLambdaRole"
-        AssumeRolePolicyDocument: 
+        AssumeRolePolicyDocument:
           Version: "2012-10-17"
           Statement: 
             - 
@@ -98,13 +98,25 @@ Resources:
                   - "lambda.amazonaws.com"
               Action: 
                 - "sts:AssumeRole"
+        S3RolePublicPolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+            Effect: Allow,
+            Action: s3:*,
+            Resource:
+              - arn:aws:s3:::publicappbucket
+              - arn:aws:s3:::publicappbucket/*
+        S3RolePrivatePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+            Effect: Allow,
+            Action: s3:*,
+            Resource:
+              - arn:aws:s3:::privateappbucket
+              - arn:aws:s3:::privateappbucket/*
         Path: "/"
-        Policies:
-          # Give Read Permissions to the S3 Bucket
-          - S3CrudPolicy:
-              BucketName: !Ref publicappbucket
-          - S3WritePolicy:
-              BucketName: !Ref privateappbucket
         ManagedPolicyArns:
           - "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 
