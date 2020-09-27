@@ -102,8 +102,8 @@ Resources:
           Version: "2012-10-17"
           Statement:
             -
-              Effect: "Allow",
-              Action: "s3:*",
+              Effect: "Allow"
+              Action: "s3:*"
               Resource:
                 - arn:aws:s3:::publicappbucket
                 - arn:aws:s3:::publicappbucket/*
@@ -111,8 +111,8 @@ Resources:
           Version: "2012-10-17"
           Statement:
             -
-              Effect: "Allow",
-              Action: "s3:*",
+              Effect: "Allow"
+              Action: "s3:*"
               Resource:
                 - arn:aws:s3:::privateappbucket
                 - arn:aws:s3:::privateappbucket/*
