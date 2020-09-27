@@ -83,7 +83,6 @@ Resources:
             BucketName: !Ref publicappbucket
         - S3WritePolicy:
             BucketName: !Ref privateappbucket
-        - 
       VpcConfig:
         SecurityGroupIds:
           - sg-0439e628d56a34d63
