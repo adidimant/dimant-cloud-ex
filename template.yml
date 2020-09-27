@@ -77,12 +77,6 @@ Resources:
           PUBLIC_BUCKET: !Ref publicappbucket
           PRIVATE_BUCKET: !Ref privateappbucket
       Role: !GetAtt VPCAccessExecutionRole.Arn
-      Policies:
-        # Give Read Permissions to the S3 Bucket
-        - S3CrudPolicy:
-            BucketName: !Ref publicappbucket
-        - S3WritePolicy:
-            BucketName: !Ref privateappbucket
       VpcConfig:
         SecurityGroupIds:
           - sg-0439e628d56a34d63
@@ -105,6 +99,12 @@ Resources:
               Action: 
                 - "sts:AssumeRole"
         Path: "/"
+        Policies:
+          # Give Read Permissions to the S3 Bucket
+          - S3CrudPolicy:
+              BucketName: !Ref publicappbucket
+          - S3WritePolicy:
+              BucketName: !Ref privateappbucket
         ManagedPolicyArns:
           - "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 

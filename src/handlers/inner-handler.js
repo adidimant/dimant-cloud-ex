@@ -15,7 +15,7 @@ exports.innerHandler = async (event, context) => {
             Bucket: PUBLIC_BUCKET_NAME,
             Key: fileKey,
         };
-        console.log(`originFileParams - ${originFileParams}`);
+        console.log(`originFileParams - ${JSON.stringify(originFileParams)}`);
 
         if(!fileKey.endsWith('.pdf')) {
             await deleteBucketObject(originFileParams);
@@ -33,7 +33,7 @@ exports.innerHandler = async (event, context) => {
                     Metadata: originFile.Metadata,
                     StorageClass: "INTELLIGENT_TIERING"
                 };
-                console.log(`putParams - ${putParams}`);
+                console.log(`putParams - ${JSON.stringify(putParams)}`);
                 await putObjectInBucket(putParams);
 
                 const fileInfo = {
@@ -42,7 +42,7 @@ exports.innerHandler = async (event, context) => {
                     size: Math.round(event.Records[0].s3.object.size),
                     type: originFile.ContentType
                 };
-                console.log(`fileInfo - ${fileInfo}`);
+                console.log(`fileInfo - ${JSON.stringify(fileInfo)}`);
 
                 await saveFileInfoInDB(fileInfo);
 
