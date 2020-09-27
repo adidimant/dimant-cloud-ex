@@ -102,20 +102,20 @@ Resources:
           Version: "2012-10-17"
           Statement:
             -
-            Effect: Allow,
-            Action: s3:*,
-            Resource:
-              - arn:aws:s3:::publicappbucket
-              - arn:aws:s3:::publicappbucket/*
+              Effect: "Allow",
+              Action: "s3:*",
+              Resource:
+                - arn:aws:s3:::publicappbucket
+                - arn:aws:s3:::publicappbucket/*
         S3RolePrivatePolicyDocument:
           Version: "2012-10-17"
           Statement:
             -
-            Effect: Allow,
-            Action: s3:*,
-            Resource:
-              - arn:aws:s3:::privateappbucket
-              - arn:aws:s3:::privateappbucket/*
+              Effect: "Allow",
+              Action: "s3:*",
+              Resource:
+                - arn:aws:s3:::privateappbucket
+                - arn:aws:s3:::privateappbucket/*
         Path: "/"
         ManagedPolicyArns:
           - "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
