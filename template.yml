@@ -82,6 +82,12 @@ Resources:
             BucketName: !Ref publicappbucket
         - S3WritePolicy:
             BucketName: !Ref privateappbucket
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0439e628d56a34d63
+        SubnetIds:
+          - subnet-091de7998d10fe361
+          - subnet-07ec4db4f419d1c61
 
   publicappbucket:
     Type: AWS::S3::Bucket
