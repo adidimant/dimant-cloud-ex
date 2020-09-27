@@ -76,6 +76,7 @@ Resources:
         Variables:
           PUBLIC_BUCKET: !Ref publicappbucket
           PRIVATE_BUCKET: !Ref privateappbucket
+      Role: !GetAtt VPCAccessExecutionRole.Arn
       Policies:
         # Give Read Permissions to the S3 Bucket
         - S3CrudPolicy:
@@ -88,6 +89,24 @@ Resources:
         SubnetIds:
           - subnet-091de7998d10fe361
           - subnet-07ec4db4f419d1c61
+
+  VPCAccessExecutionRole: 
+      Type: "AWS::IAM::Role"
+      Properties: 
+        RoleName: "VPCAccessExecutionLambdaRole"
+        AssumeRolePolicyDocument: 
+          Version: "2012-10-17"
+          Statement: 
+            - 
+              Effect: "Allow"
+              Principal: 
+                Service: 
+                  - "lambda.amazonaws.com"
+              Action: 
+                - "sts:AssumeRole"
+        Path: "/"
+        ManagedPolicyArns:
+          - "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 
   publicappbucket:
     Type: AWS::S3::Bucket
