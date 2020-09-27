@@ -89,7 +89,7 @@ Resources:
         SubnetIds:
           - subnet-091de7998d10fe361
           - subnet-07ec4db4f419d1c61
-          
+
   publicappbucket:
     Type: AWS::S3::Bucket
     Properties:
