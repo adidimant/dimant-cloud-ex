@@ -64,10 +64,10 @@ Resources:
 
   innerHandler:
     Type: AWS::Serverless::Function
-    DependsOn: LambdaExecutionPolicyCustom
     Properties:
       CodeUri: ./
       Handler: src/handlers/inner-handler.innerHandler
+      Role: arn:aws:iam::123456789012:role/lambda-role
       Runtime: nodejs10.x
       Description: A Lambda function that been triggered from the external lambda function
       FunctionName: innerPDFHandler
@@ -89,23 +89,7 @@ Resources:
         SubnetIds:
           - subnet-091de7998d10fe361
           - subnet-07ec4db4f419d1c61
-
-  LambdaExecutionPolicyCustom:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: lambda-execution-policy-custom
-      Roles:
-        Ref: LambdaExecutionRole
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          Effect: Allow
-          Action:
-            - ec2:CreateNetworkInterface
-            - ec2:DescribeNetworkInterfaces
-            - ec2:DeleteNetworkInterface
-          Resource: '*'
-
+          
   publicappbucket:
     Type: AWS::S3::Bucket
     Properties:
