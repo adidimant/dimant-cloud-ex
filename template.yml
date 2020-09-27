@@ -67,7 +67,6 @@ Resources:
     Properties:
       CodeUri: ./
       Handler: src/handlers/inner-handler.innerHandler
-      Role: arn:aws:iam::123456789012:role/lambda-role
       Runtime: nodejs10.x
       Description: A Lambda function that been triggered from the external lambda function
       FunctionName: innerPDFHandler
