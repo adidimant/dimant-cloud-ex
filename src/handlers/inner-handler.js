@@ -5,6 +5,11 @@ const {saveFileInfoInDB} = require("../lib/db");
 const {queryObjectKeyToString} = require("../lib/utils");
 const PUBLIC_BUCKET_NAME = process.env.PUBLIC_BUCKET, PRIVATE_BUCKET_NAME = process.env.PRIVATE_BUCKET;
 
+/*
+ Lambda function that invoked directly by external lambda function (triggered by putting a file in S3 public bucket).
+ This lambda validates that a .pdf file was recieved (if not - deletes it), saving the file in private bucket with generated uuid name, and writes the fileInfo in our DB
+*/
+
 exports.innerHandler = async (event, context) => {
     console.log("innerPDFHandler lambda function was triggered!");
     try {
@@ -46,7 +51,7 @@ exports.innerHandler = async (event, context) => {
 
                 await saveFileInfoInDB(fileInfo);
 
-                result = `File: ${fileKey} was successfully renamed and moved to the private bucket`;
+                result = `File: ${fileKey} was successfully renamed, moved to the private bucket and saved in DB`;
             }
         }
         console.log(result);
