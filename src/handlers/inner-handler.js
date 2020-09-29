@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const {ALERTS} = require("../lib/consts");
 const {getBucketObject, putObjectInBucket, deleteBucketObject} = require("../lib/aws");
 const {saveFileInfoInDB} = require("../lib/db");
-const {queryObjectKeyToString} = require("../utils");
+const {queryObjectKeyToString} = require("../lib/utils");
 const PUBLIC_BUCKET_NAME = process.env.PUBLIC_BUCKET, PRIVATE_BUCKET_NAME = process.env.PRIVATE_BUCKET;
 
 exports.innerHandler = async (event, context) => {
